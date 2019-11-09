@@ -1,6 +1,8 @@
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -9,25 +11,30 @@ import javax.imageio.ImageIO;
  * Tank
  */
 public class Tank implements AnimatedObj {
-	public int x, y, team, health;
+
+	public enum Teams {
+		BLUE, RED
+	};
+
+	public int x, y, health;
 	public double theta;
+	public Teams team;
 
 	private Brain brain = new Brain(3, 2, 1);
 
 	private static final Random RAND = new Random();
 	private static final int ANIMATION_MAX = 2;
-	private static final BufferedImage SPRITE_SHEET = javaSux();
+	private static final Map<Teams, BufferedImage> SPRITE_SHEET_MAP = new HashMap<>();
 	private static final Dimension SPRITE_DIMENSION = new Dimension(104, 64);
 
-	private static BufferedImage javaSux() {
-		BufferedImage image = null;
-		try {
-			image = ImageIO.read(Tank.class.getResource("/assets/imgs/red_tank.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return image;
+	static {
+		for (var team : Teams.values())
+			try {
+				SPRITE_SHEET_MAP.put(team, ImageIO
+						.read((Tank.class.getResource("assets/imgs/" + team.toString().toLowerCase() + "_tank.png"))));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	}
 
 	private int animationState = 0;
@@ -35,14 +42,15 @@ public class Tank implements AnimatedObj {
 	/**
 	 * Default constructor randomly chooses param values.
 	 */
-	public Tank() {
-		this(RAND.nextInt(100), RAND.nextInt(100), RAND.nextDouble() * Math.PI * 2);
+	public Tank(Teams team) {
+		this(RAND.nextInt(100), RAND.nextInt(100), RAND.nextDouble() * Math.PI * 2, team);
 	}
 
-	public Tank(int x, int y, double theta) {
+	public Tank(int x, int y, double theta, Teams team) {
 		this.x = x;
 		this.y = y;
 		this.theta = theta;
+		this.team = team;
 	}
 
 	public Brain getBrain() {
@@ -58,7 +66,7 @@ public class Tank implements AnimatedObj {
 
 	@Override
 	public BufferedImage getSpriteSheet() {
-		return SPRITE_SHEET; // make dynamic
+		return SPRITE_SHEET_MAP.get(team);
 	}
 
 	@Override
