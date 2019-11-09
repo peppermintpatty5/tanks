@@ -12,7 +12,8 @@ public class Component extends JComponent {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<Tank> tanks;
+    private List<Tank> tanks;
+    GenAlg gen = new GenAlg(100, 0.85, 0.05, 10, false);
 
     public Component(List<Tank> tanks) {
         this.tanks = tanks;
@@ -30,5 +31,6 @@ public class Component extends JComponent {
         for (Tank t : tanks) {
             t.drawMyself(g2, t.x, t.y);
         }
+        tanks = gen.process(tanks);
     }
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -56,7 +57,7 @@ public class GenAlg {
 		// Start to create the new generation
 		for(int i = 0; i < currentGeneration.size(); i++) {
 			if(Math.random() < crossoverRate) 
-				currentGeneration.set(i, crossover(currentGeneration.get(i), currentGeneration.get((int)(Math.random() * currentGeneration.size()))));
+				currentGeneration.set(i, crossover(currentGeneration.get(i), currentGeneration.get((int)(Math.random() * currentGeneration.size() - 1))));
 			if(Math.random() < mutationRate)
 				currentGeneration.set(i, mutate(currentGeneration.get(i)));
 		}
@@ -75,7 +76,7 @@ public class GenAlg {
 		double[] mWeight = mother.getBrain().getWeights();
 		
 		int length = fWeight.length;
-		int split = (int)(Math.random() * length);
+		int split = (int)(Math.random() * (length - 1) + 1);
 		
 		Tank child = new Tank(0, 0, 0);
 		double[] fatherWeights = new double[split];
@@ -84,9 +85,9 @@ public class GenAlg {
 		
 		for(int i = 0; i < fatherWeights.length; i++) 
 			fatherWeights[i] = fWeight[i];
-		
-		for(int i = fatherWeights.length - 1; i < mWeight.length; i++)
+		for(int i = fatherWeights.length; i < motherWeights.length - 1; i++) {
 			motherWeights[i] = mWeight[i];
+		}
 		
 		for(int i = 0; i < fatherWeights.length; i++)
 			childWeights[i] = fatherWeights[i];

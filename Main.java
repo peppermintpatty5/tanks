@@ -23,13 +23,13 @@ public class Main {
 
         window.add(new Component(tanks));
         window.setVisible(true);
+        
 
         new Thread(() -> {
             while (true) {
                 try {
                     Thread.sleep(1000 / 60);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 window.repaint();
