@@ -46,11 +46,8 @@ public class Tank implements AnimatedObj {
 
         return animationState;
     }
-<<<<<<< Updated upstream
 
     public Brain getBrain() {
         return brain;
     }
-=======
->>>>>>> Stashed changes
 }
