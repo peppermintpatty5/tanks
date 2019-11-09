@@ -1,76 +1,91 @@
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 /**
  * Tank
  */
 public class Tank implements AnimatedObj {
-    private int x, y;
+	private int x, y;
 	private double theta;
-    private Brain brain = new Brain(3, 2, 1);
+	private Brain brain = new Brain(3, 2, 1);
 
-    private static final Random RAND = new Random();
+	private static final Random RAND = new Random();
+	private static final int ANIMATION_MAX = 2;
+	private static final BufferedImage SPRITE_SHEET = javaSux();
+	private static final Dimension SPRITE_DIMENSION = null;
 
-    private static final int ANIMATION_MAX = 2;
+	private static BufferedImage javaSux() {
+		try {
+			return ImageIO.read(new Object().getClass().getResource("assets/imgs/red_tank.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-    private int animationState = 0;
+		return null;
+	}
 
-    /**
-     * Default constructor randomly chooses param values.
-     */
-    public Tank() {
-        this(RAND.nextInt(100), RAND.nextInt(100), RAND.nextDouble() * Math.PI * 2);
-    }
+	private int animationState = 0;
 
-    public Tank(int x, int y, double theta) {
-        this.x = x;
-        this.y = y;
-        this.theta = theta;
-    }
+	/**
+	 * Default constructor randomly chooses param values.
+	 */
+	public Tank() {
+		this(RAND.nextInt(100), RAND.nextInt(100), RAND.nextDouble() * Math.PI * 2);
+	}
 
-    @Override
-    public int getAnimationState() {
-        animationState = (animationState + 1) % ANIMATION_MAX;
+	public Tank(int x, int y, double theta) {
+		this.x = x;
+		this.y = y;
+		this.theta = theta;
+	}
 
-        return animationState;
-    }
+	@Override
+	public int getAnimationState() {
+		animationState = (animationState + 1) % ANIMATION_MAX;
 
-    public Brain getBrain() {
-        return brain;
-    }
+		return animationState;
+	}
+
+	public Brain getBrain() {
+		return brain;
+	}
 
 	@Override
 	public BufferedImage getSpriteSheet() {
-		return null;
+		return SPRITE_SHEET; // make dynamic
+	}
+
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public double getTheta() {
+		return theta;
+	}
+
+	public void setTheta(double theta) {
+		this.theta = theta;
 	}
 
 	@Override
 	public Dimension getSpriteDimension() {
 		return null;
 	}
-	
-	 public int getX() {
-			return x;
-		}
-
-		public void setX(int x) {
-			this.x = x;
-		}
-
-		public int getY() {
-			return y;
-		}
-
-		public void setY(int y) {
-			this.y = y;
-		}
-
-		public double getTheta() {
-			return theta;
-		}
-
-		public void setTheta(double theta) {
-			this.theta = theta;
-		}
 }
