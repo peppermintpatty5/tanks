@@ -11,12 +11,14 @@ import javax.swing.JComponent;
 public class Component extends JComponent {
 
     private static final long serialVersionUID = 1L;
+    
 
     private List<Tank> tanks;
     GenAlg gen = new GenAlg(100, 0.85, 0.05, 10, false);
 
     public Component(List<Tank> tanks) {
         this.tanks = tanks;
+        System.out.println("Created");
     }
 
     @Override
