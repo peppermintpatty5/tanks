@@ -60,6 +60,12 @@ public class GenAlg {
 		return null;
 	}
 	
+	/**
+	 * Crossover to create a child from two parent Tanks
+	 * @param father father to be used
+	 * @param mother mother to be used
+	 * @return child based on parents
+	 */
 	public Tank crossover(Tank father, Tank mother) {
 		double[] fWeight = father.getBrain().getWeights();
 		double[] mWeight = mother.getBrain().getWeights();
@@ -67,22 +73,32 @@ public class GenAlg {
 		int length = fWeight.length;
 		int split = (int)(Math.random() * length);
 		
+		Tank child = new Tank(0, 0, 0);
 		double[] fatherWeights = new double[split];
 		double[] motherWeights = new double[length - split];
+		double[] childWeights = new double[fatherWeights.length + motherWeights.length];
 		
 		for(int i = 0; i < fatherWeights.length; i++) 
 			fatherWeights[i] = fWeight[i];
+		
 		for(int i = fatherWeights.length - 1; i < mWeight.length; i++)
 			motherWeights[i] = mWeight[i];
 		
-		Tank child = new Tank(0, 0, 0);
-		Arrays.
-		child.getBrain().sendWeights(weights);
+		for(int i = 0; i < fatherWeights.length; i++)
+			childWeights[i] = fatherWeights[i];
 		
+		int counter = 0;
+		for(int i = fatherWeights.length + 1; i < childWeights.length; i++) 
+			childWeights[i] = motherWeights[counter++];
+		
+		child.getBrain().sendWeights(childWeights);
+		
+		return child;
 	}
 	
 	public Tank mutate(Tank tank) {
-		
+		tank.getBrain().targetWeight((int)(Math.random() * tank.getBrain().getWeights().length), Math.random() * 4 - 2);
+		return tank;
 	}
 }
 
