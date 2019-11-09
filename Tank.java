@@ -36,8 +36,19 @@ public class Tank implements AnimatedObj {
     private Brain brain = new Brain(3, 2, 1);
 
     private static final Random RAND = new Random();
-
     private static final int ANIMATION_MAX = 2;
+    private static final BufferedImage SPRITE_SHEET = javaSux();
+    private static final Dimension SPRITE_DIMENSION = null;
+
+    private static BufferedImage javaSux() {
+        try {
+            return ImageIO.read(new Object().getClass().getResource("assets/imgs/tanks.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     private int animationState = 0;
 
@@ -65,13 +76,13 @@ public class Tank implements AnimatedObj {
         return brain;
     }
 
-	@Override
-	public BufferedImage getSpriteSheet() {
-		return null;
-	}
+    @Override
+    public BufferedImage getSpriteSheet() {
+        return SPRITE_SHEET; // make dynamic
+    }
 
-	@Override
-	public Dimension getSpriteDimension() {
-		return null;
-	}
+    @Override
+    public Dimension getSpriteDimension() {
+        return null;
+    }
 }

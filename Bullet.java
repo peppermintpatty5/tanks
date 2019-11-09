@@ -12,11 +12,11 @@ public class Bullet implements AnimatedObj {
 
 	private static final int ANIMATION_MAX = 2;
 	private static final BufferedImage SPRITE_SHEET = javaSux();
-	private static final Dimension SPRITE_DIMENSION = null;
+	private static final Dimension SPRITE_DIMENSION = new Dimension(32, 32);
 
 	private static BufferedImage javaSux() {
 		try {
-			return ImageIO.read(new Object().getClass().getResource("assets/imgs/tanks.png"));
+			return ImageIO.read(new Object().getClass().getResource("assets/imgs/minesphere.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
