@@ -9,8 +9,9 @@ import javax.imageio.ImageIO;
  * Tank
  */
 public class Tank implements AnimatedObj {
-	private int x, y;
-	private double theta;
+	public int x, y, team, health;
+	public double theta;
+
 	private Brain brain = new Brain(3, 2, 1);
 
 	private static final Random RAND = new Random();
@@ -44,45 +45,20 @@ public class Tank implements AnimatedObj {
 		this.theta = theta;
 	}
 
-	@Override
-	public int getAnimationState() {
-		animationState = (animationState + 1) % ANIMATION_MAX;
-
-		return animationState;
-	}
-
 	public Brain getBrain() {
 		return brain;
 	}
 
 	@Override
+	public int getAnimationState() {
+		animationState = (animationState + 1) % (ANIMATION_MAX * 6);
+
+		return animationState / 6;
+	}
+
+	@Override
 	public BufferedImage getSpriteSheet() {
 		return SPRITE_SHEET; // make dynamic
-	}
-
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public double getTheta() {
-		return theta;
-	}
-
-	public void setTheta(double theta) {
-		this.theta = theta;
 	}
 
 	@Override

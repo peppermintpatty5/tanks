@@ -28,7 +28,7 @@ public class Component extends JComponent {
         Graphics2D g2 = (Graphics2D) g;
 
         for (Tank t : tanks) {
-            t.drawMyself(g2, t.getX(), t.getY());
+            t.drawMyself(g2, t.x, t.y);
         }
     }
 }
