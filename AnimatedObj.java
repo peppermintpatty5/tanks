@@ -17,7 +17,6 @@ public interface AnimatedObj {
 		var i = getAnimationState();
 		var d = getSpriteDimension();
 		var subimg = getSpriteSheet().getSubimage(d.width * i, 0, d.width, d.height);
-
 		g2.drawImage(subimg, x, y, null);
 	}
 }

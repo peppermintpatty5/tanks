@@ -16,16 +16,17 @@ public class Tank implements AnimatedObj {
 	private static final Random RAND = new Random();
 	private static final int ANIMATION_MAX = 2;
 	private static final BufferedImage SPRITE_SHEET = javaSux();
-	private static final Dimension SPRITE_DIMENSION = null;
+	private static final Dimension SPRITE_DIMENSION = new Dimension(104, 64);
 
 	private static BufferedImage javaSux() {
+		BufferedImage image = null;
 		try {
-			return ImageIO.read(new Object().getClass().getResource("assets/imgs/red_tank.png"));
+			image = ImageIO.read(Tank.class.getResource("/assets/imgs/red_tank.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		return null;
+		return image;
 	}
 
 	private int animationState = 0;
@@ -86,6 +87,6 @@ public class Tank implements AnimatedObj {
 
 	@Override
 	public Dimension getSpriteDimension() {
-		return null;
+		return SPRITE_DIMENSION;
 	}
 }
