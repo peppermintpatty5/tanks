@@ -21,6 +21,19 @@ public class Tank implements AnimatedObj {
         this(RAND.nextInt(100), RAND.nextInt(100), RAND.nextDouble() * Math.PI * 2);
     }
 
+    private static final Random RAND = new Random();
+
+    private static final int ANIMATION_MAX = 2;
+
+    private int animationState = 0;
+
+    /**
+     * Default constructor randomly chooses param values.
+     */
+    public Tank() {
+        this(RAND.nextInt(100), RAND.nextInt(100), RAND.nextDouble(Math.PI * 2));
+    }
+
     public Tank(int x, int y, double theta) {
         this.x = x;
         this.y = y;
@@ -33,8 +46,11 @@ public class Tank implements AnimatedObj {
 
         return animationState;
     }
+<<<<<<< Updated upstream
 
     public Brain getBrain() {
         return brain;
     }
+=======
+>>>>>>> Stashed changes
 }
