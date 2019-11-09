@@ -18,7 +18,7 @@ public class Tank implements AnimatedObj {
      * Default constructor randomly chooses param values.
      */
     public Tank() {
-        this(RAND.nextInt(100), RAND.nextInt(100), RAND.nextDouble(Math.PI * 2));
+        this(RAND.nextInt(100), RAND.nextInt(100), RAND.nextDouble() * Math.PI * 2);
     }
 
     public Tank(int x, int y, double theta) {
