@@ -37,7 +37,7 @@ public class Component extends JComponent {
         Graphics2D g2 = (Graphics2D) g;
 
         for (Tank t : tanks) {
-            g2.drawImage(getImgResource("assets/imgs/tanks.png"), t.x, t.y, null);
+            g2.drawImage(getImgResource("assets/imgs/tanks.png"), t.getX(), t.getY(), null);
         }
     }
 

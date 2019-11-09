@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 /**
  * Bullet
  *
- * git config --global credential.helper 'cache --timeout=3600'
  */
 public class Bullet implements AnimatedObj {
 
