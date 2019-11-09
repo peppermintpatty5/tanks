@@ -10,9 +10,7 @@ import java.util.List;
 
 public class GenAlg {
 	
-	private int populationSize;
 	private int generation;
-	
 	private int maxGeneration;
 	private boolean keep;
 	
@@ -21,8 +19,7 @@ public class GenAlg {
 	private double geneMultiplier;
 	
 	
-	public GenAlg(int populationSize, int maxGeneration, double crossoverRate, double mutationRate, double geneMultiplier, boolean keep) {
-		this.populationSize = populationSize;
+	public GenAlg(int maxGeneration, double crossoverRate, double mutationRate, double geneMultiplier, boolean keep) {
 		this.maxGeneration = maxGeneration;
 		this.crossoverRate = crossoverRate;
 		this.geneMultiplier = geneMultiplier;
@@ -31,6 +28,7 @@ public class GenAlg {
 	}
 	
 	public List<Tank> process(List<Tank> currentGeneration) { 
+		List<Tank> genePool = new ArrayList<Tank>();
 		
 		// Find the highest and lowest fitness present within a current generation
 		double lowestFitness = currentGeneration.get(0).getBrain().getFitness();
@@ -49,15 +47,21 @@ public class GenAlg {
 			currentGeneration.get(0).getBrain().setFitness((int)((currentGeneration.get(0).getBrain().getFitness() - lowestFitness) / (highestFitness - lowestFitness) * geneMultiplier) + 1);
 		
 		// Create a proportional gene pool of the current generation
-		List<Tank> genePool = new ArrayList<Tank>();
-		
 		for(Tank e : currentGeneration) {
 			for(int i = 0; i < e.getBrain().getFitness(); i++) {
 				genePool.add(e);
 			}
 		}
 		
-		return null;
+		// Start to create the new generation
+		for(int i = 0; i < currentGeneration.size(); i++) {
+			if(Math.random() < crossoverRate) 
+				currentGeneration.set(i, crossover(currentGeneration.get(i), currentGeneration.get((int)(Math.random() * currentGeneration.size()))));
+			if(Math.random() < mutationRate)
+				currentGeneration.set(i, mutate(currentGeneration.get(i)));
+		}
+		generation++;
+		return currentGeneration;
 	}
 	
 	/**
@@ -99,6 +103,14 @@ public class GenAlg {
 	public Tank mutate(Tank tank) {
 		tank.getBrain().targetWeight((int)(Math.random() * tank.getBrain().getWeights().length), Math.random() * 4 - 2);
 		return tank;
+	}
+	
+	public int getGeneration() {
+		return generation;
+	}
+	
+	public int getMaxGeneration() {
+		return maxGeneration;
 	}
 }
 

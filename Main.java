@@ -16,7 +16,7 @@ public class Main {
         for (int i = 0; i < 10; i++)
             tanks.add(new Tank(rand.nextInt(100), rand.nextInt(100), 0));
 
-        window.setVisible(true);
         window.add(new Component(tanks));
+        window.setVisible(true);
     }
 }
