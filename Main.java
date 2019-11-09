@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
 
         List<Tank> tanks = new ArrayList<Tank>();
-        Window window = new Window();
+        Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", true);
         Random rand = new Random();
 
         for (int i = 0; i < 10; i++)

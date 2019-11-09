@@ -78,6 +78,7 @@ public class Brain {
 		for(int i = 0; i < output.length; i++) {
 			for(int j = 0; j < hidden.length; j++) {
 				output[i] += hidden[j] * weights[counter];
+				output[i] = output[i] > 0 ? 1 : 0;
 				counter++;
 			}
 		}

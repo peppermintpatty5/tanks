@@ -18,7 +18,6 @@ public class Component extends JComponent {
 
     public Component(List<Tank> tanks) {
         this.tanks = tanks;
-        System.out.println("Created");
     }
 
     @Override
@@ -31,8 +30,9 @@ public class Component extends JComponent {
         Graphics2D g2 = (Graphics2D) g;
 
         for (Tank t : tanks) {
+        	t.update();
             t.drawMyself(g2, t.x, t.y);
         }
-        tanks = gen.process(tanks);
+//        tanks = gen.process(tanks);
     }
 }
