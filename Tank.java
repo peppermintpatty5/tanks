@@ -7,31 +7,6 @@ import java.util.Random;
  */
 public class Tank implements AnimatedObj {
     private int x, y;
-    
-    public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public double getTheta() {
-		return theta;
-	}
-
-	public void setTheta(double theta) {
-		this.theta = theta;
-	}
-
 	private double theta;
     private Brain brain = new Brain(3, 2, 1);
 
@@ -74,4 +49,28 @@ public class Tank implements AnimatedObj {
 	public Dimension getSpriteDimension() {
 		return null;
 	}
+	
+	 public int getX() {
+			return x;
+		}
+
+		public void setX(int x) {
+			this.x = x;
+		}
+
+		public int getY() {
+			return y;
+		}
+
+		public void setY(int y) {
+			this.y = y;
+		}
+
+		public double getTheta() {
+			return theta;
+		}
+
+		public void setTheta(double theta) {
+			this.theta = theta;
+		}
 }
