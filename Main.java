@@ -14,14 +14,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        List<Tank> tanks = new ArrayList<Tank>();
+        List<Tank> redTeam = new ArrayList<Tank>();
+        List<Tank> blueTeam = new ArrayList<Tank>();
         Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", true);
         Random rand = new Random();
 
-        for (int i = 0; i < 10; i++)
-            tanks.add(new Tank(rand.nextInt(100), rand.nextInt(100), 0));
+        for (int i = 0; i < 10; i++) {
+            redTeam.add(new Tank(Tank.Teams.RED));
+            blueTeam.add(new Tank(Tank.Teams.BLUE));
+        }
 
-        window.add(new Component(tanks));
+        window.add(new Component(redTeam, blueTeam));
         window.setVisible(true);
         
 
