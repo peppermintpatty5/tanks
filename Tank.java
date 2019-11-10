@@ -2,7 +2,6 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -76,7 +75,7 @@ public class Tank implements AnimatedObj {
 
 		theta += 0.3;
 
-//		Main.bullets.add(new Bullet(x, y, theta, this));
+		Main.bullets.add(new Bullet(x, y, theta, this));
 	}
 
 	@Override
