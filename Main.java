@@ -1,4 +1,9 @@
-import java.awt.event.KeyListener;
+import java.awt.AWTEvent;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +11,7 @@ import java.util.List;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.Timer;
 
 /**
  * Main
@@ -17,7 +23,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", 650, 500);
+        Timer updateTimer;
+        Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", 1920, 1080);
 
         for (int i = 0; i < 2; i++) {
             redTeam.add(new Tank(Tank.Teams.RED));
@@ -29,16 +36,30 @@ public class Main {
         window.validate();
         window.setVisible(true);
 
-        while (true) {
-            try {
-                Thread.sleep(1000 / 60);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+                updateTimer = new Timer(250, new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Update compulations here...
+                    }
+                });
+                updateTimer.setRepeats(false);
+                updateTimer.setCoalesce(true);
+
+                Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+
+                    @Override
+                    public void eventDispatched(AWTEvent event) {
+                        updateTimer.restart();
+                    }
+                }, AWTEvent.PAINT_EVENT_MASK);
             }
-            for (int i = 0; i < 1000; i++)
-                step();
-            window.repaint();
-        }
+        });
+        
     }
 
     public static void step() {
