@@ -31,12 +31,12 @@ public class Component extends JComponent {
 
         for (Tank t : redTeam) {
             t.update();
-            t.drawMyself(g2, t.x, t.y);
+            t.drawMyself(g2, t.x, t.y, t.theta);
         }
 
         for (Tank t : blueTeam) {
             t.update();
-            t.drawMyself(g2, t.x, t.y);
+            t.drawMyself(g2, t.x, t.y, t.theta);
         }
         // tanks = gen.process(tanks);
     }
