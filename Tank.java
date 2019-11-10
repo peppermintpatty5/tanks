@@ -25,7 +25,7 @@ public class Tank implements AnimatedObj {
 	
 	private int cooldown = 30;
 
-	private Brain brain = new Brain(7, 4, 3);
+	private Brain brain = new Brain(7, 6, 3);
 
 	private static final Random RAND = new Random();
 	private static final int ANIMATION_MAX = 2;
@@ -108,7 +108,7 @@ public class Tank implements AnimatedObj {
 
 		brain.sendInputs(new double[] { midDist, radius, angle, accuracy, dist, maxDisplacement, hits });
 		
-		double fitness = roundsFired * 100 + hits * 3 + Main.frames * 0.1 + health * 15;
+		double fitness = roundsFired * 10 + hits * 3 + Main.frames * 0.1 + health * 15;
 		brain.setFitness(fitness > 0 ? fitness : 0);
 		
 		brain.generateOutput();
