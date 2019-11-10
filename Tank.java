@@ -18,7 +18,7 @@ public class Tank implements AnimatedObj {
 	};
 
 	public int health;
-	public double theta, x, y, v = 200;
+	public double theta, x, y, v = 100;
 	public Teams team;
 
 	private Brain brain = new Brain(5, 3, 4);
@@ -34,7 +34,7 @@ public class Tank implements AnimatedObj {
 	 * Default constructor randomly chooses param values.
 	 */
 	public Tank(Teams team) {
-		this(900 + RAND.nextInt(200), 400 + RAND.nextInt(200), RAND.nextDouble() * Math.PI * 2, team);
+		this(700 + RAND.nextInt(500), 300 + RAND.nextInt(500), RAND.nextDouble() * Math.PI * 2, team);
 	}
 
 	public Tank(int x, int y, double theta, Teams team) {
@@ -62,18 +62,23 @@ public class Tank implements AnimatedObj {
 	}
 
 	public void update() {
+		double a_f = -20;
+
 		brain.sendInputs(new double[] { 1, 2, 3 });
 		brain.randomizeWeights();
 		brain.generateOutput();
 
-		x += brain.getOutput()[0] == 0 ? -1 : +1;
-		y += brain.getOutput()[1] == 0 ? -1 : +1;
+		a_f += brain.getOutput()[0] == 0 ? -51 : +5;
 
-		double a_f = -5;
-		v += (1.0 / 60) * a_f;
+		if (v >= 0)
+			v += (1.0 / 60) * a_f;
+		else
+			v = 0;
 
 		x += Math.cos(theta) * v * (1.0 / 60);
 		y += Math.sin(theta) * v * (1.0 / 60);
+
+		theta += 0.3;
 	}
 
 	@Override

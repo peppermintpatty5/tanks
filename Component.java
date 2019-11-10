@@ -30,7 +30,6 @@ public class Component extends JComponent {
         this.width = width;
         this.height = height;
         this.backgroundImage = createImageBackground();
-
     }
 
     private BufferedImage createImageBackground() {
@@ -71,7 +70,7 @@ public class Component extends JComponent {
         for (Tank t : redTeam) {
             t.update();
             t.drawMyself(g2, (int) t.x, (int) t.y, t.theta);
-            // t.shoot(bullets);
+            t.shoot(bullets);
         }
 
         for (Tank t : blueTeam) {
@@ -83,6 +82,17 @@ public class Component extends JComponent {
             b.drawMyself(g2, (int) b.x, (int) b.y, b.theta);
             b.update();
         }
+
+        bullets.removeIf(b -> {
+            for (var t : (b.tank.team == Tank.Teams.RED ? blueTeam : redTeam)) {
+                if (Math.pow(b.x - t.x, 2) + Math.pow(b.y - t.y, 2) < Math.pow(45, 2)) {
+                    t.health--;
+                    // REGiSTER HIT FOR B.TANK HERE!!!
+                    return true;
+                }
+            }
+            return b.x < 0 || b.y < 0 || b.x > 1920 || b.y > 1080;
+        });
 
         // tanks = gen.process(tanks);
     }

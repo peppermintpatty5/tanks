@@ -16,7 +16,7 @@ public class Bullet implements AnimatedObj {
 	private int animationState = 0;
 
 	public double x, y, theta;
-	private Tank tank;
+	public Tank tank;
 
 	public Bullet(double x, double y, double theta, Tank tank) {
 		this.x = x;
@@ -33,9 +33,8 @@ public class Bullet implements AnimatedObj {
 	}
 
 	public void update() {
-		x += Math.cos(theta) * 100;
-		y += Math.sin(theta) * 100;
-		System.out.println(Math.cos(theta) + ", shit , " + Math.sin(theta));
+		x += Math.cos(theta) * 10;
+		y += Math.sin(theta) * 10;
 	}
 
 	@Override

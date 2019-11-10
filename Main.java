@@ -19,7 +19,7 @@ public class Main {
 
         Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", 1920, 1080);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             redTeam.add(new Tank(Tank.Teams.RED));
             blueTeam.add(new Tank(Tank.Teams.BLUE));
         }
