@@ -56,6 +56,10 @@ public class Tank implements AnimatedObj {
 		return brain;
 	}
 
+	public void shoot(List<Bullet> bullets) {
+		bullets.add(new Bullet(x, y, theta, this));
+	}
+
 	public void update() {
 		brain.sendInputs(new double[] { 1, 2, 3 });
 		brain.randomizeWeights();
