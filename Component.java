@@ -102,8 +102,6 @@ public class Component extends JComponent implements KeyListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         
-        System.out.println("Size:  " + Main.bullets.size());
-        
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.drawImage(backgroundImage, 0, 0, this);

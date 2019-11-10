@@ -1,6 +1,7 @@
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -16,11 +17,13 @@ public class Tank implements AnimatedObj {
 		BLUE, RED
 	};
 
-	public int health = 1000, hits = 0, roundsFired = 0, x0, y0;
+	public int health = 3, hits = 0, roundsFired = 0, x0, y0;
 	public double theta, x, y, v = 100, accuracy, dist = 0, maxDisplacement = 0;
 	public Teams team;
+	
+	private int cooldown = 30;
 
-	private Brain brain = new Brain(5, 3, 4);
+	private Brain brain = new Brain(6, 4, 3);
 
 	private static final Random RAND = new Random();
 	private static final int ANIMATION_MAX = 2;
@@ -43,6 +46,7 @@ public class Tank implements AnimatedObj {
 		this.y0 = y;
 		this.theta = theta;
 		this.team = team;
+		brain.randomizeWeights();
 
 		if (SPRITE_SHEET_MAP.isEmpty())
 			for (var t : Teams.values())
@@ -70,7 +74,7 @@ public class Tank implements AnimatedObj {
 	 * Get angle in radians. 0 is a head-on threat.
 	 */
 	public double getAngle(Bullet b) {
-		return Math.abs(theta - (b.theta + Math.PI));
+		return Math.abs(theta - (b.theta + Math.PI)) % (2 * Math.PI);
 	}
 
 	public Brain getBrain() {
@@ -78,32 +82,58 @@ public class Tank implements AnimatedObj {
 	}
 
 	public void update() {
-		double a_f = -20;
-
-		brain.sendInputs(new double[] { 1, 2, 3 });
-		brain.randomizeWeights();
-		brain.generateOutput();
-
-		a_f += brain.getOutput()[0] == 0 ? - 5 : + 5;
-
+		double a_f = -2;
+		
+		Bullet b = getClosestThreat();
+		
+		double radius = b != null ? getRadius(b) : 1 / Double.POSITIVE_INFINITY;
+		double angle = b != null ? getAngle(b) : Math.PI;
+		
+		x += Math.cos(theta) * v * (1.0 / 60);
+		y += Math.sin(theta) * v * (1.0 / 60);
+		dist += v * (1.0 / 60);
+		
 		if (v >= 0)
 			v += (1.0 / 60) * a_f;
 		else
 			v = 0;
 
-		x += Math.cos(theta) * v * (1.0 / 60);
-		y += Math.sin(theta) * v * (1.0 / 60);
-		dist += v * (1.0 / 60);
+		maxDisplacement = Math.max(maxDisplacement, Math.sqrt(Math.pow(x - x0, 2) + Math.pow(y - y0, 2)));
 
-		maxDisplacement = Math.max(maxDisplacement, Math.pow(x - x0, 2) + Math.pow(y - y0, 2));
-
-		theta += 0.3;
-
-		Main.bullets.add(new Bullet(x + 70 * Math.cos(theta) + 24, y + 70 * Math.sin(theta) + 28, theta, this));
-		roundsFired++;
-
-		accuracy = (double) hits / roundsFired;
+		brain.sendInputs(new double[] { radius, angle, accuracy, dist, maxDisplacement, hits });
+		
+		double fitness = accuracy * 5 + dist * -0.1 + maxDisplacement * 0.2 + hits * 5;
+		brain.setFitness(fitness > 0 ? fitness : 0);
+		
+		brain.generateOutput();
+		System.out.println("Fitness: " + brain.getFitness());
+		System.out.println("Input: " + Arrays.toString(brain.getInput()));
+		System.out.println("Hidden: " + Arrays.toString(brain.getHidden()));
+		System.out.println("Output: " + Arrays.toString(brain.getOutput()));
+		System.out.println("Weigths: " + Arrays.toString(brain.getWeights()));
 		System.out.println("Accuracy: " + accuracy);
+		System.out.println();
+		
+		if(x + 104 < 0 || x > 1920 || y + 32 < 0 || y > 1080) {
+			health = 0;
+			brain.setFitness(brain.getFitness() * .1);
+		}
+
+//		a_f += brain.getOutput()[0] < 0 ? - 5 : + 5;
+//		theta += brain.getOutput()[1] < 0 ? - 0.1 : + 0.1;
+		a_f += brain.getOutput()[0] == 0 ? 0 : brain.getOutput()[0] < 0 ? - 5 : + 5;
+		theta += brain.getOutput()[1] == 0 ? 0 : brain.getOutput()[1] < 0 ? - 0.05 : + 0.05;
+		
+		cooldown = (cooldown + 1) % 31;
+		System.out.println("Cooldown: " + cooldown);
+		if(brain.getOutput()[2] == 1 && cooldown >= 30) {
+			Main.bullets.add(new Bullet(x + 70 * Math.cos(theta) + 24, y + 70 * Math.sin(theta) + 28, theta, this));
+			roundsFired++;
+			cooldown = 0;
+		}
+
+		accuracy = roundsFired > 0 ? (double) hits / roundsFired : 0;
+		
 	}
 
 	public void reset() {
