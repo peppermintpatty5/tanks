@@ -16,8 +16,8 @@ public class Tank implements AnimatedObj {
 		BLUE, RED
 	};
 
-	public int health = 1000, hits = 0;
-	public double theta, x, y, v = 100;
+	public int health = 1000, hits = 0, roundsFired = 0, x0, y0;
+	public double theta, x, y, v = 100, accuracy, dist = 0, maxDisplacement = 0;
 	public Teams team;
 
 	private Brain brain = new Brain(5, 3, 4);
@@ -28,8 +28,7 @@ public class Tank implements AnimatedObj {
 	private static final Dimension SPRITE_DIMENSION = new Dimension(104, 64);
 
 	private int animationState = 0;
-	private int tick = 0;
-
+	
 	/**
 	 * Default constructor randomly chooses param values.
 	 */
@@ -40,6 +39,8 @@ public class Tank implements AnimatedObj {
 	public Tank(int x, int y, double theta, Teams team) {
 		this.x = x;
 		this.y = y;
+		this.x0 = x;
+		this.y0 = y;
 		this.theta = theta;
 		this.team = team;
 
@@ -73,10 +74,26 @@ public class Tank implements AnimatedObj {
 
 		x += Math.cos(theta) * v * (1.0 / 60);
 		y += Math.sin(theta) * v * (1.0 / 60);
+		dist += v * (1.0 / 60);
+		
+		maxDisplacement = Math.max(maxDisplacement, Math.pow(x - x0, 2) + Math.pow(y - y0, 2));
 
 		theta += 0.3;
 		
 		Main.bullets.add(new Bullet(x + 70 * Math.cos(theta) + 24, y + 70 * Math.sin(theta) + 28, theta, this));
+		roundsFired++;
+		
+		accuracy = (double)hits / roundsFired;
+		System.out.println("Accuracy: " + accuracy);
+	}
+	
+	public void reset() {
+		health = 3;
+		hits = 0;
+		roundsFired = 0;
+		v = 100;
+		accuracy = 0.0d;
+		animationState = 0;
 	}
 
 	@Override

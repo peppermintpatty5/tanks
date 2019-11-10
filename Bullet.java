@@ -36,8 +36,8 @@ public class Bullet implements AnimatedObj {
 	}
 
 	public void update() {
-//		x += Math.cos(theta);
-//		y += Math.sin(theta);
+		x += Math.cos(theta);
+		y += Math.sin(theta);
 	}
 
 	@Override

@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -26,8 +25,6 @@ public interface AnimatedObj {
 		
 		Graphics2D k = (Graphics2D) g2.create();
 		k.rotate(theta, x + getSpriteOffset().getWidth(), y + getSpriteOffset().getHeight());
-		
-//		g2.drawImage(subimg, x, y, null);
 		k.drawImage(subimg, x, y, null);
 	}
 }

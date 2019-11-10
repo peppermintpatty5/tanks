@@ -33,7 +33,7 @@ public class Main {
 
         for (int i = 0; i < 1; i++) {
             redTeam.add(new Tank(Tank.Teams.RED));
-//            blueTeam.add(new Tank(Tank.Teams.BLUE));
+            blueTeam.add(new Tank(Tank.Teams.BLUE));
         }
         Component component = new Component(redTeam, blueTeam, bullets, window.getWidth(), window.getHeight());
         window.addKeyListener(component);
