@@ -28,7 +28,7 @@ public class Tank implements AnimatedObj {
 	private static final Dimension SPRITE_DIMENSION = new Dimension(104, 64);
 
 	private int animationState = 0;
-	
+
 	/**
 	 * Default constructor randomly chooses param values.
 	 */
@@ -54,6 +54,25 @@ public class Tank implements AnimatedObj {
 				}
 	}
 
+	public Bullet getClosestThreat() {
+		return Main.bullets.stream().filter(b -> b.tank.team != team)
+				.sorted((a, b) -> getRadius(a) < getRadius(b) ? -1 : 1).findFirst().orElse(null);
+	}
+
+	/**
+	 * Radius between this tank and some bullet.
+	 */
+	public double getRadius(Bullet b) {
+		return Math.sqrt(Math.pow(x - b.x, 2) + Math.pow(y - b.y, 2));
+	}
+
+	/**
+	 * Get angle in radians. 0 is a head-on threat.
+	 */
+	public double getAngle(Bullet b) {
+		return Math.abs(theta - (b.theta + Math.PI));
+	}
+
 	public Brain getBrain() {
 		return brain;
 	}
@@ -75,18 +94,18 @@ public class Tank implements AnimatedObj {
 		x += Math.cos(theta) * v * (1.0 / 60);
 		y += Math.sin(theta) * v * (1.0 / 60);
 		dist += v * (1.0 / 60);
-		
+
 		maxDisplacement = Math.max(maxDisplacement, Math.pow(x - x0, 2) + Math.pow(y - y0, 2));
 
 		theta += 0.3;
-		
+
 		Main.bullets.add(new Bullet(x + 70 * Math.cos(theta) + 24, y + 70 * Math.sin(theta) + 28, theta, this));
 		roundsFired++;
-		
-		accuracy = (double)hits / roundsFired;
+
+		accuracy = (double) hits / roundsFired;
 		System.out.println("Accuracy: " + accuracy);
 	}
-	
+
 	public void reset() {
 		health = 3;
 		hits = 0;
