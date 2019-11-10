@@ -12,13 +12,16 @@ import javax.sound.sampled.Clip;
 public class Main {
     public static void main(String[] args) {
 
-        List<Tank> tanks = new ArrayList<Tank>();
-        Window window = new Window();
+        List<Tank> redTeam = new ArrayList<Tank>();
+        List<Tank> blueTeam = new ArrayList<Tank>();
+        Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", true);
 
-        for (int i = 0; i < 10; i++)
-            tanks.add(new Tank(Tank.Teams.BLUE));
+        for (int i = 0; i < 10; i++) {
+            redTeam.add(new Tank(Tank.Teams.RED));
+            blueTeam.add(new Tank(Tank.Teams.BLUE));
+        }
 
-        window.add(new Component(tanks));
+        window.add(new Component(redTeam, blueTeam));
         window.setVisible(true);
 
         new Thread(() -> {

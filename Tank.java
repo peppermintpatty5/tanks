@@ -1,6 +1,7 @@
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -20,7 +21,7 @@ public class Tank implements AnimatedObj {
 	public double theta;
 	public Teams team;
 
-	private Brain brain = new Brain(3, 2, 1);
+	private Brain brain = new Brain(5, 3, 4);
 
 	private static final Random RAND = new Random();
 	private static final int ANIMATION_MAX = 2;
@@ -55,6 +56,15 @@ public class Tank implements AnimatedObj {
 
 	public Brain getBrain() {
 		return brain;
+	}
+	
+	public void update() {
+		brain.sendInputs(new double[] {1, 2, 3});
+		brain.randomizeWeights();
+		brain.generateOutput();
+		
+		x += brain.getOutput()[0] == 0 ? - 1 : + 1;
+		y += brain.getOutput()[1] == 0 ? - 1 : + 1;
 	}
 
 	@Override

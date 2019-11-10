@@ -12,12 +12,12 @@ public class Component extends JComponent {
 
     private static final long serialVersionUID = 1L;
 
-    private List<Tank> tanks;
+    private List<Tank> redTeam, blueTeam;
     GenAlg gen = new GenAlg(100, 0.85, 0.05, 10, false);
 
-    public Component(List<Tank> tanks) {
-        this.tanks = tanks;
-        System.out.println("Created");
+    public Component(List<Tank> redTeam, List<Tank> blueTeam) {
+        this.redTeam = redTeam;
+        this.blueTeam = blueTeam;
     }
 
     @Override
@@ -29,8 +29,15 @@ public class Component extends JComponent {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        for (Tank t : tanks) {
+        for (Tank t : redTeam) {
+            t.update();
             t.drawMyself(g2, t.x, t.y);
         }
+
+        for (Tank t : blueTeam) {
+            t.update();
+            t.drawMyself(g2, t.x, t.y);
+        }
+        // tanks = gen.process(tanks);
     }
 }

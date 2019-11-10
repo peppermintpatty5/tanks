@@ -63,9 +63,13 @@ public class Window extends JFrame {
 	 * Default size constructor
 	 * @param title the title to set
 	 */
-	public Window(String title) {
+	public Window(String title, boolean extendedState) {
 		this(title, Window.DEFAULT_WIDTH, Window.DEFAULT_HEIGHT);
+		
+		if(extendedState)
+			super.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
+	
 	
 	/**
 	 * Default constructor
@@ -81,7 +85,6 @@ public class Window extends JFrame {
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		super.setLocationRelativeTo(null);
 		super.setResizable(false);
-		super.setAutoRequestFocus(true);
 		super.setVisible(true);
 	}
 }

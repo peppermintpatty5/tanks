@@ -80,7 +80,7 @@ public class GenAlg {
 		int length = fWeight.length;
 		int split = (int) (Math.random() * (length - 1) + 1);
 
-		Tank child = new Tank(Tank.Teams.BLUE);
+		Tank child = new Tank(Tank.Teams.RED);
 		double[] fatherWeights = new double[split];
 		double[] motherWeights = new double[length - split];
 		double[] childWeights = new double[fatherWeights.length + motherWeights.length];
