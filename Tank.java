@@ -2,6 +2,7 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -16,16 +17,17 @@ public class Tank implements AnimatedObj {
 		BLUE, RED
 	};
 
-	public int x, y, health;
+	public double x, y, health;
 	public double theta;
 	public Teams team;
 
-	private Brain brain = new Brain(5, 3, 4);
+	private Brain brain = new Brain(5, 4, 3);
 
 	private static final Random RAND = new Random();
 	private static final int ANIMATION_MAX = 2;
 	private static final Map<Teams, BufferedImage> SPRITE_SHEET_MAP = new HashMap<>();
 	private static final Dimension SPRITE_DIMENSION = new Dimension(104, 64);
+	private int animationState = 0;
 
 	static {
 		for (var team : Teams.values())
@@ -37,13 +39,11 @@ public class Tank implements AnimatedObj {
 			}
 	}
 
-	private int animationState = 0;
-
 	/**
 	 * Default constructor randomly chooses param values.
 	 */
 	public Tank(Teams team) {
-		this(RAND.nextInt(100), RAND.nextInt(100), RAND.nextDouble() * Math.PI * 2, team);
+		this(RAND.nextInt(400) + 200, RAND.nextInt(400) + 200, RAND.nextDouble() * Math.PI * 2, team);
 	}
 
 	public Tank(int x, int y, double theta, Teams team) {
@@ -57,13 +57,18 @@ public class Tank implements AnimatedObj {
 		return brain;
 	}
 	
+	public void shoot(List<Bullet> bullets) {
+		bullets.add(new Bullet(x, y, theta, this));
+	}
+	
 	public void update() {
 		brain.sendInputs(new double[] {1, 2, 3});
 		brain.randomizeWeights();
 		brain.generateOutput();
 		
-		x += brain.getOutput()[0] == 0 ? - 1 : + 1;
-		y += brain.getOutput()[1] == 0 ? - 1 : + 1;
+		x += brain.getOutput()[0] == 0 ? - Math.cos(-theta) : + Math.cos(-theta);
+		y += brain.getOutput()[1] == 0 ? - Math.sin(-theta) : + Math.sin(-theta);
+		theta += brain.getOutput()[2] == 0 ? - 0.1 : + 0.1;
 	}
 
 	@Override

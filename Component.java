@@ -16,15 +16,17 @@ public class Component extends JComponent {
     private static final long serialVersionUID = 1L;
 
     private List<Tank> redTeam, blueTeam;
+    private List<Bullet> bullets;
     
     private int width, height;
     
     private BufferedImage backgroundImage;
     GenAlg gen = new GenAlg(100, 0.85, 0.05, 10, false);
 
-    public Component(List<Tank> redTeam, List<Tank> blueTeam, int width, int height) {
+    public Component(List<Tank> redTeam, List<Tank> blueTeam, List<Bullet> bullets, int width, int height) {
         this.redTeam = redTeam;
         this.blueTeam = blueTeam;
+        this.bullets = bullets;
         this.width = width;
         this.height = height;
         this.backgroundImage = createImageBackground();
@@ -68,12 +70,18 @@ public class Component extends JComponent {
 
         for (Tank t : redTeam) {
             t.update();
-            t.drawMyself(g2, t.x, t.y, t.theta);
+            t.drawMyself(g2, (int)t.x, (int)t.y, t.theta);
+            t.shoot(bullets);
         }
 
         for (Tank t : blueTeam) {
             t.update();
-            t.drawMyself(g2, t.x, t.y, t.theta);
+            t.drawMyself(g2, (int)t.x, (int)t.y, t.theta);
+        }
+        
+        for (Bullet b : bullets) {
+        	b.update();
+        	b.drawMyself(g2, (int)b.x, (int)b.y, b.theta);
         }
         
         
