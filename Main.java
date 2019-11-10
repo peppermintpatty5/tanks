@@ -1,6 +1,4 @@
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +12,17 @@ import javax.swing.Timer;
  * Main
  */
 public class Main {
-	
-	/**
-	 * Global variable list of redTeam tanks;
-	 */
+
+    /**
+     * Global variable list of redTeam tanks;
+     */
     public static final List<Tank> redTeam = new ArrayList<Tank>();
-    
+
     /**
      * Global variable list of blueTeam tanks;
      */
     public static final List<Tank> blueTeam = new ArrayList<Tank>();
-    
+
     /**
      * Global variable list of bullets fired
      */
@@ -44,13 +42,10 @@ public class Main {
         window.setVisible(true);
 
         EventQueue.invokeLater(() -> {
-            new Timer(1000 / 60, new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
+            new Timer(1000 / 60, e -> {
+                for (int i = 0; i < 10; i++)
                     step();
-                    window.repaint();
-                }
+                window.repaint();
             }).start();
         });
 
@@ -60,6 +55,9 @@ public class Main {
      * Remove bullets from the playing field when they interact with tank. Decrease the 
      * hit point from the tank as well and remove it when hit points are less than or equal
      * to 0.
+     * Remove bullets from the playing field when they interact with tank. Decrease
+     * the hit point from the tank as well and remove it when hi toints are less
+     * than or equal to 0.
      */
     public static void step() {
 
