@@ -38,8 +38,6 @@ public class Window extends JFrame {
 	 */
 	private static final int DEFAULT_HEIGHT = 500;
 	
-	private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-	
 	/**
 	 * Main full parameter constructor
 	 * @param title the title to set
@@ -69,7 +67,7 @@ public class Window extends JFrame {
 	public Window(String title, boolean extendedState) {
 		super(title);
 		super.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		super.setSize((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+		super.setPreferredSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 		super.pack();
 		this.windowInit();
 	}
