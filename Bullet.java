@@ -54,4 +54,9 @@ public class Bullet implements AnimatedObj {
 	public Dimension getSpriteDimension() {
 		return SPRITE_DIMENSION;
 	}
+
+	@Override
+	public Dimension getSpriteOffset() {
+		return new Dimension(0, 0);
+	}
 }

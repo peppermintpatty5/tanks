@@ -14,6 +14,11 @@ public interface AnimatedObj {
 
 	Dimension getSpriteDimension();
 
+	/**
+	 * Get offset from top left corner.
+	 */
+	Dimension getSpriteOffset();
+
 	default void drawMyself(Graphics2D g2, int x, int y, double theta) {
 		var i = getAnimationState();
 		var d = getSpriteDimension();
