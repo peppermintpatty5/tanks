@@ -68,7 +68,9 @@ public class Window extends JFrame {
 	 */
 	public Window(String title, boolean extendedState) {
 		super(title);
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		super.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		super.setSize((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+		super.pack();
 		this.windowInit();
 	}
 	
