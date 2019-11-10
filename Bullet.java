@@ -10,6 +10,9 @@ import javax.imageio.ImageIO;
  */
 public class Bullet implements AnimatedObj {
 
+	/**
+	 * Maximum number of animations the 
+	 */
 	private static final int ANIMATION_MAX = 8;
 	private static BufferedImage SPRITE_SHEET = null;
 	private static final Dimension SPRITE_DIMENSION = new Dimension(32, 32);

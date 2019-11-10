@@ -137,7 +137,9 @@ public class Component extends JComponent implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("Pressed");
+		for (Tank t : redTeam) {
+			t.theta += 0.1;
+		}
 	}
 
 	@Override

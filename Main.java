@@ -14,8 +14,20 @@ import javax.swing.Timer;
  * Main
  */
 public class Main {
+	
+	/**
+	 * Global variable list of redTeam tanks;
+	 */
     public static final List<Tank> redTeam = new ArrayList<Tank>();
+    
+    /**
+     * Global variable list of blueTeam tanks;
+     */
     public static final List<Tank> blueTeam = new ArrayList<Tank>();
+    
+    /**
+     * Global variable list of bullets fired
+     */
     public static final List<Bullet> bullets = new ArrayList<Bullet>();
 
     public static void main(String[] args) {
@@ -44,6 +56,11 @@ public class Main {
 
     }
 
+    /**
+     * Remove bullets from the playing field when they interact with tank. Decrease the 
+     * hit point from the tank as well and remove it when hi toints are less than or equal
+     * to 0.
+     */
     public static void step() {
 
         redTeam.forEach(Tank::update);
