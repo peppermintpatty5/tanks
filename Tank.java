@@ -2,6 +2,7 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -54,6 +55,10 @@ public class Tank implements AnimatedObj {
 
 	public Brain getBrain() {
 		return brain;
+	}
+	
+	public void shoot(List<Bullet> bullets) {
+		bullets.add(new Bullet(x, y, theta, this));
 	}
 
 	public void update() {
