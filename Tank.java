@@ -40,7 +40,7 @@ public class Tank implements AnimatedObj {
 	public Tank(int x, int y, double theta, Teams team) {
 		this.x = x;
 		this.y = y;
-		this.theta = theta;
+		this.theta = Math.PI * 7 / 4;
 		this.team = team;
 
 		if (SPRITE_SHEET_MAP.isEmpty())
@@ -55,10 +55,6 @@ public class Tank implements AnimatedObj {
 
 	public Brain getBrain() {
 		return brain;
-	}
-	
-	public void shoot(List<Bullet> bullets) {
-		bullets.add(new Bullet(x, y, theta, this));
 	}
 
 	public void shoot(List<Bullet> bullets) {
@@ -75,8 +71,6 @@ public class Tank implements AnimatedObj {
 
 		double a_f = -5;
 		v += (1.0 / 60) * a_f;
-
-		System.out.println(v);
 
 		x += Math.cos(theta) * v * (1.0 / 60);
 		y += Math.sin(theta) * v * (1.0 / 60);

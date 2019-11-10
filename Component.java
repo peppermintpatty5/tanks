@@ -26,9 +26,11 @@ public class Component extends JComponent {
     public Component(List<Tank> redTeam, List<Tank> blueTeam, List<Bullet> bullets, int width, int height) {
         this.redTeam = redTeam;
         this.blueTeam = blueTeam;
+        this.bullets = bullets;
         this.width = width;
         this.height = height;
         this.backgroundImage = createImageBackground();
+
     }
 
     private BufferedImage createImageBackground() {
@@ -76,11 +78,11 @@ public class Component extends JComponent {
             t.update();
             t.drawMyself(g2, (int) t.x, (int) t.y, t.theta);
         }
-        
-//        for (Bullet b : bullets) {
-//        	b.drawMyself(g2, (int)b.x, (int)b.y, b.theta);
-//        	b.upate();
-//        }
+
+        for (Bullet b : bullets) {
+            b.drawMyself(g2, (int) b.x, (int) b.y, b.theta);
+            b.update();
+        }
 
         // tanks = gen.process(tanks);
     }
