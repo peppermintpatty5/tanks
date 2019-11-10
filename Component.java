@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -100,6 +101,10 @@ public class Component extends JComponent implements KeyListener {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+        
+        System.out.println("Size:  " + Main.bullets.size());
+        
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.drawImage(backgroundImage, 0, 0, this);
 
@@ -137,8 +142,9 @@ public class Component extends JComponent implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println("Pressed");
 		for (Tank t : redTeam) {
-			t.theta += 0.1;
+			t.theta += 0.5;
 		}
 	}
 

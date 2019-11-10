@@ -16,7 +16,7 @@ public class Tank implements AnimatedObj {
 		BLUE, RED
 	};
 
-	public int health = 17, hits = 0;
+	public int health = 1000, hits = 0;
 	public double theta, x, y, v = 100;
 	public Teams team;
 
@@ -28,12 +28,13 @@ public class Tank implements AnimatedObj {
 	private static final Dimension SPRITE_DIMENSION = new Dimension(104, 64);
 
 	private int animationState = 0;
+	private int tick = 0;
 
 	/**
 	 * Default constructor randomly chooses param values.
 	 */
 	public Tank(Teams team) {
-		this(200 + RAND.nextInt(200), 200 + RAND.nextInt(200), RAND.nextDouble() * Math.PI * 2, team);
+		this(100 + RAND.nextInt(400), 100 + RAND.nextInt(400), RAND.nextDouble() * Math.PI * 2, team);
 	}
 
 	public Tank(int x, int y, double theta, Teams team) {
@@ -74,8 +75,8 @@ public class Tank implements AnimatedObj {
 		y += Math.sin(theta) * v * (1.0 / 60);
 
 		theta += 0.3;
-
-		Main.bullets.add(new Bullet(x, y, theta, this));
+		
+		Main.bullets.add(new Bullet(x + 70 * Math.cos(theta) + 24, y + 70 * Math.sin(theta) + 28, theta, this));
 	}
 
 	@Override
@@ -97,6 +98,6 @@ public class Tank implements AnimatedObj {
 
 	@Override
 	public Dimension getSpriteOffset() {
-		return new Dimension(16, 16);
+		return new Dimension(32, 32);
 	}
 }

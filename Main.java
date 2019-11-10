@@ -33,9 +33,9 @@ public class Main {
     public static void main(String[] args) {
         Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", 1920, 1080);
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             redTeam.add(new Tank(Tank.Teams.RED));
-            blueTeam.add(new Tank(Tank.Teams.BLUE));
+//            blueTeam.add(new Tank(Tank.Teams.BLUE));
         }
         Component component = new Component(redTeam, blueTeam, bullets, window.getWidth(), window.getHeight());
         window.addKeyListener(component);
@@ -58,7 +58,7 @@ public class Main {
 
     /**
      * Remove bullets from the playing field when they interact with tank. Decrease the 
-     * hit point from the tank as well and remove it when hi toints are less than or equal
+     * hit point from the tank as well and remove it when hit points are less than or equal
      * to 0.
      */
     public static void step() {
