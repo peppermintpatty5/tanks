@@ -24,7 +24,6 @@ public class Main {
         window.add(new Component(redTeam, blueTeam, window.getWidth(), window.getHeight()));
         window.validate();
         window.setVisible(true);
-        
 
         new Thread(() -> {
             while (true) {

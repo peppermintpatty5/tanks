@@ -16,8 +16,8 @@ public class Tank implements AnimatedObj {
 		BLUE, RED
 	};
 
-	public int x, y, health;
-	public double theta;
+	public int health;
+	public double theta, x, y, v = 20;
 	public Teams team;
 
 	private Brain brain = new Brain(5, 3, 4);
@@ -56,14 +56,22 @@ public class Tank implements AnimatedObj {
 	public Brain getBrain() {
 		return brain;
 	}
-	
+
 	public void update() {
-		brain.sendInputs(new double[] {1, 2, 3});
+		brain.sendInputs(new double[] { 1, 2, 3 });
 		brain.randomizeWeights();
 		brain.generateOutput();
-		
-		x += brain.getOutput()[0] == 0 ? - 1 : + 1;
-		y += brain.getOutput()[1] == 0 ? - 1 : + 1;
+
+		// x += brain.getOutput()[0] == 0 ? -1 : +1;
+		// y += brain.getOutput()[1] == 0 ? -1 : +1;
+
+		double a_f = -5;
+		v += (1.0 / 60) * a_f;
+
+		System.out.println(v);
+
+		x += Math.cos(theta) * v * (1.0 / 60);
+		y += Math.sin(theta) * v * (1.0 / 60);
 	}
 
 	@Override
