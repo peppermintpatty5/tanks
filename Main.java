@@ -38,7 +38,7 @@ public class Main {
     public static void main(String[] args) {
         Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", 1920, 1080);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 20; i++) {
             redTeam.add(new Tank(Tank.Teams.RED));
             blueTeam.add(new Tank(Tank.Teams.BLUE));
         }

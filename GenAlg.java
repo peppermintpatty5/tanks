@@ -1,5 +1,8 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /*
  * Name: Shane Arcaro
@@ -16,12 +19,11 @@ public class GenAlg {
 
 	private double crossoverRate;
 	private double mutationRate;
-	private double geneMultiplier;
+	private double maxFitness;
 
 	public GenAlg(int maxGeneration, double crossoverRate, double mutationRate, double geneMultiplier, boolean keep) {
 		this.maxGeneration = maxGeneration;
 		this.crossoverRate = crossoverRate;
-		this.geneMultiplier = geneMultiplier;
 		this.mutationRate = mutationRate;
 		this.keep = keep;
 	}
@@ -32,7 +34,20 @@ public class GenAlg {
 		// Find the highest and lowest fitness present within a current generation
 		double lowestFitness = currentGeneration.get(0).getBrain().getFitness();
 		double highestFitness = currentGeneration.get(0).getBrain().getFitness();
-
+		
+		List<Double> fitnessScore = new ArrayList<Double>();
+		
+		for (Tank e : currentGeneration) {
+			fitnessScore.add(e.getBrain().getFitness());
+		}
+		Collections.sort(fitnessScore);
+		
+		System.out.print("Fitness: [");
+		for(Double e : fitnessScore) {
+			System.out.print(e + ", ");
+		}
+		System.out.println("]");
+		
 		for (int i = 1; i < currentGeneration.size(); i++) {
 			double currentFitness = currentGeneration.get(0).getBrain().getFitness();
 			if (lowestFitness > currentFitness)
@@ -40,14 +55,31 @@ public class GenAlg {
 			if (currentFitness > highestFitness)
 				highestFitness = currentFitness;
 		}
-
+		maxFitness = highestFitness;
+		
 		// Normalize the fitness of every Tank
-		for (int i = 0; i < currentGeneration.size(); i++)
-			currentGeneration.get(0).getBrain()
-					.setFitness((int) ((currentGeneration.get(0).getBrain().getFitness() - lowestFitness)
-							/ (highestFitness - lowestFitness) * geneMultiplier) + 1);
-
+		double mean = currentGeneration.stream().mapToDouble(t -> t.getBrain().getFitness()).sum() / currentGeneration.size();
+		double stddev = Math.sqrt(currentGeneration.stream().mapToDouble(t -> t.getBrain().getFitness()).map(d -> Math.pow(d - mean, 2)).sum() / (currentGeneration.size() - 1));
+		
+		for (var t : currentGeneration)
+			t.getBrain().setFitness(((((t.getBrain().getFitness() - mean) / stddev) + 4) * 100));
+		currentGeneration.get(0).getBrain().setFitness(0);
+		
+		System.out.print("Adjusted Fitness: [");
+		for(Tank e : currentGeneration) {
+			System.out.print(e.getBrain().getFitness() + ", ");
+		}
+		System.out.println("]");
+		
+		System.out.println();
+		
+		var topTwo = currentGeneration.stream().sorted((a, b) -> Double.valueOf((b.getBrain().getFitness())).compareTo(Double.valueOf(a.getBrain().getFitness()))).limit(2).collect(Collectors.toList());
+		System.out.println("Top Two: " + topTwo.get(0).getBrain().getFitness() + ", " + topTwo.get(1).getBrain().getFitness());
+		
 		// Create a proportional gene pool of the current generation
+		
+		currentGeneration.set(0, topTwo.get(0));
+		currentGeneration.set(1, topTwo.get(1));
 		for (Tank e : currentGeneration) {
 			for (int i = 0; i < e.getBrain().getFitness(); i++) {
 				genePool.add(e);
@@ -55,7 +87,7 @@ public class GenAlg {
 		}
 
 		// Start to create the new generation
-		for (int i = 0; i < currentGeneration.size(); i++) {
+		for (int i = 2; i < currentGeneration.size(); i++) {
 			if (Math.random() < crossoverRate)
 				currentGeneration.set(i, crossover(currentGeneration.get(i),
 						currentGeneration.get((int) (Math.random() * currentGeneration.size() - 1))));
@@ -80,7 +112,7 @@ public class GenAlg {
 		int length = fWeight.length;
 		int split = (int) (Math.random() * (length - 1) + 1);
 
-		Tank child = new Tank(Tank.Teams.RED);
+		Tank child = new Tank(father.team);
 		double[] fatherWeights = new double[split];
 		double[] motherWeights = new double[length - split];
 		double[] childWeights = new double[fatherWeights.length + motherWeights.length];
@@ -115,5 +147,9 @@ public class GenAlg {
 
 	public int getMaxGeneration() {
 		return maxGeneration;
+	}
+	
+	public double getMaxFitness() {
+		return maxFitness;
 	}
 }

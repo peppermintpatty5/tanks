@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -103,11 +105,20 @@ public class Component extends JComponent implements KeyListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         
+//        System.out.println("Generation: " + redGen.getGeneration() + ", " + blueGen.getGeneration());
+//        System.out.println("Max Fitness: [" + redGen.getMaxFitness() + ", " + blueGen.getMaxFitness() + "]");
+        
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.drawImage(backgroundImage, 0, 0, this);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        g2.setColor(Color.red);
+        g2.drawString("Fitness: " + String.format("%.3f", redGen.getMaxFitness()), 0, 20);
         
-        if(redTeam.stream().anyMatch(t -> !t.isEnabled) || blueTeam.stream().anyMatch(t -> !t.isEnabled) || Main.seconds >= 10) {
+        g2.setColor(Color.blue);
+        g2.drawString("Fitness: " + String.format("%.3f", blueGen.getMaxFitness()), 0, 40);
+        
+        if(redTeam.stream().noneMatch(t -> t.isEnabled) || blueTeam.stream().noneMatch(t -> t.isEnabled)  || Main.seconds >= 10) {
         	Main.simulation.set(false);
         	Main.seconds = 0;
         	Main.frames = 0;
@@ -146,7 +157,9 @@ public class Component extends JComponent implements KeyListener {
         else {
         	redTeam = redGen.process(redTeam);
         	blueTeam = blueGen.process(blueTeam);
+        	Main.simulation.set(true);
         }
+        
         // tanks = gen.process(tanks);
     }
 
@@ -158,10 +171,10 @@ public class Component extends JComponent implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("Pressed");
-		for (Tank t : redTeam) {
-			t.theta += 0.5;
-		}
+//		System.out.println("Pressed");
+//		for (Tank t : redTeam) {
+//			t.theta += 0.5;
+//		}
 	}
 
 	@Override

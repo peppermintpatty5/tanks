@@ -18,14 +18,14 @@ public class Tank implements AnimatedObj {
 	};
 
 	public int health = 3, hits = 0, roundsFired = 0, x0, y0;
-	public double theta, x, y, v = 100, accuracy, dist = 0, maxDisplacement = 0;
+	public double theta, x, y, v = 100, accuracy, dist = 0, maxDisplacement = 0, midDist;
 	public Teams team;
 	
 	public boolean isEnabled = true;
 	
 	private int cooldown = 30;
 
-	private Brain brain = new Brain(6, 4, 3);
+	private Brain brain = new Brain(7, 4, 3);
 
 	private static final Random RAND = new Random();
 	private static final int ANIMATION_MAX = 2;
@@ -38,7 +38,7 @@ public class Tank implements AnimatedObj {
 	 * Default constructor randomly chooses param values.
 	 */
 	public Tank(Teams team) {
-		this(100 + RAND.nextInt(400), 100 + RAND.nextInt(400), RAND.nextDouble() * Math.PI * 2, team);
+		this(200 + RAND.nextInt(1200), 200 + RAND.nextInt(500), RAND.nextDouble() * Math.PI * 2, team);
 	}
 
 	public Tank(int x, int y, double theta, Teams team) {
@@ -101,12 +101,14 @@ public class Tank implements AnimatedObj {
 			v += (1.0 / 60) * a_f;
 		else
 			v = 0;
+		
+		midDist = Math.sqrt(Math.pow(1920 / 2 - x, 2) + Math.pow(1080 / 2 - y, 2));
 
 		maxDisplacement = Math.max(maxDisplacement, Math.sqrt(Math.pow(x - x0, 2) + Math.pow(y - y0, 2)));
 
-		brain.sendInputs(new double[] { radius, angle, accuracy, dist, maxDisplacement, hits });
+		brain.sendInputs(new double[] { midDist, radius, angle, accuracy, dist, maxDisplacement, hits });
 		
-		double fitness = accuracy * 5 + dist * -0.1 + maxDisplacement * 0.2 + hits * 5;
+		double fitness = roundsFired * 100 + hits * 3 + Main.frames * 0.1 + health * 15;
 		brain.setFitness(fitness > 0 ? fitness : 0);
 		
 		brain.generateOutput();
@@ -116,9 +118,9 @@ public class Tank implements AnimatedObj {
 //		System.out.println("Output: " + Arrays.toString(brain.getOutput()));
 //		System.out.println("Weigths: " + Arrays.toString(brain.getWeights()));
 //		System.out.println("Accuracy: " + accuracy);
-		System.out.println("Frames: " + Main.frames);
-		System.out.println("Seconds: " + Main.seconds);
-		System.out.println();
+//		System.out.println("Frames: " + Main.frames);
+//		System.out.println("Seconds: " + Main.seconds);
+//		System.out.println();
 		
 		if(x + 104 < 0 || x > 1920 || y + 32 < 0 || y > 1080) {
 			health = 0;
@@ -131,7 +133,7 @@ public class Tank implements AnimatedObj {
 		theta += brain.getOutput()[1] == 0 ? 0 : brain.getOutput()[1] < 0 ? - 0.05 : + 0.05;
 		
 		cooldown = (cooldown + 1) % 31;
-		System.out.println("Cooldown: " + cooldown);
+//		System.out.println("Cooldown: " + cooldown);
 		if(brain.getOutput()[2] == 1 && cooldown >= 30) {
 			Main.bullets.add(new Bullet(x + 70 * Math.cos(theta) + 24, y + 70 * Math.sin(theta) + 28, theta, this));
 			roundsFired++;
