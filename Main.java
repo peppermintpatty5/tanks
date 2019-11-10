@@ -1,3 +1,4 @@
+import java.awt.event.KeyListener;
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +17,15 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", 1920, 1080);
+        Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", 650, 500);
 
         for (int i = 0; i < 2; i++) {
             redTeam.add(new Tank(Tank.Teams.RED));
             blueTeam.add(new Tank(Tank.Teams.BLUE));
         }
-        window.add(new Component(redTeam, blueTeam, bullets, window.getWidth(), window.getHeight()));
+        Component component = new Component(redTeam, blueTeam, bullets, window.getWidth(), window.getHeight());
+        window.addKeyListener(component);
+        window.add(component);
         window.validate();
         window.setVisible(true);
 

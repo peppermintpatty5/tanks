@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 public interface AnimatedObj {
 
 	int getAnimationState();
-
+	
 	BufferedImage getSpriteSheet();
 
 	Dimension getSpriteDimension();
@@ -23,7 +23,7 @@ public interface AnimatedObj {
 		var d = getSpriteDimension();
 		var subimg = getSpriteSheet().getSubimage(d.width * i, 0, d.width, d.height);
 
-		((Graphics2D) (subimg.getGraphics())).rotate(Math.PI, 16, 16);
+		((Graphics2D) (subimg.getGraphics())).rotate(Math.toRadians(90), getSpriteOffset().getWidth(), getSpriteOffset().getHeight());
 		g2.drawImage(subimg, x, y, null);
 	}
 }

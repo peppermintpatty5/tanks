@@ -34,7 +34,7 @@ public class Tank implements AnimatedObj {
 	 * Default constructor randomly chooses param values.
 	 */
 	public Tank(Teams team) {
-		this(700 + RAND.nextInt(500), 300 + RAND.nextInt(500), RAND.nextDouble() * Math.PI * 2, team);
+		this(200 + RAND.nextInt(200), 200 + RAND.nextInt(200), RAND.nextDouble() * Math.PI * 2, team);
 	}
 
 	public Tank(int x, int y, double theta, Teams team) {
@@ -76,7 +76,7 @@ public class Tank implements AnimatedObj {
 
 		theta += 0.3;
 
-		Main.bullets.add(new Bullet(x, y, theta, this));
+//		Main.bullets.add(new Bullet(x, y, theta, this));
 	}
 
 	@Override

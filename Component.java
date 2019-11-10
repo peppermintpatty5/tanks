@@ -1,5 +1,7 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,18 +13,42 @@ import javax.swing.JComponent;
 /**
  * Component
  */
-public class Component extends JComponent {
+public class Component extends JComponent implements KeyListener {
 
+	/**
+	 * Static Serial Version Identity Number
+	 */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * List of tank objects broken up into different team types
+     */
     private List<Tank> redTeam, blueTeam;
+    
+    /**
+     * List of bullets shot within the field of play
+     */
     private List<Bullet> bullets;
 
+    /**
+     * Width and height of the frame component is resting on
+     */
     private int width, height;
 
+    /**
+     * Background image to be tiled
+     */
     private BufferedImage backgroundImage;
     GenAlg gen = new GenAlg(100, 0.85, 0.05, 10, false);
 
+    /**
+     * Construct new component
+     * @param redTeam the redTeam tanks to be set
+     * @param blueTeam the blueTeam tanks to be set
+     * @param bullets the bullets to be set
+     * @param width the width to be set
+     * @param height the height to be set
+     */
     public Component(List<Tank> redTeam, List<Tank> blueTeam, List<Bullet> bullets, int width, int height) {
         this.redTeam = redTeam;
         this.blueTeam = blueTeam;
@@ -32,6 +58,11 @@ public class Component extends JComponent {
         this.backgroundImage = createImageBackground();
     }
 
+    /**
+     * Dynamically enlarge a buffered image by twice the width and height until it
+     * fits on the screen
+     * @return enlarged buffered image
+     */
     private BufferedImage createImageBackground() {
         BufferedImage image = null;
         try {
@@ -46,6 +77,11 @@ public class Component extends JComponent {
         return image;
     }
 
+    /**
+     * Enlarge a buffered image by twice the width and height
+     * @param image1 image to be enlarged
+     * @return enlarged image
+     */
     private BufferedImage enlargeImage(BufferedImage image1) {
         BufferedImage combinedImage = new BufferedImage(image1.getWidth() * 2, image1.getHeight() * 2,
                 BufferedImage.TYPE_INT_RGB);
@@ -92,4 +128,21 @@ public class Component extends JComponent {
 
         // tanks = gen.process(tanks);
     }
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println("Pressed");
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
