@@ -21,6 +21,8 @@ public class Tank implements AnimatedObj {
 	public double theta, x, y, v = 100, accuracy, dist = 0, maxDisplacement = 0;
 	public Teams team;
 	
+	public boolean isEnabled = true;
+	
 	private int cooldown = 30;
 
 	private Brain brain = new Brain(6, 4, 3);
@@ -82,6 +84,8 @@ public class Tank implements AnimatedObj {
 	}
 
 	public void update() {
+		if(!isEnabled)
+			return;
 		double a_f = -2;
 		
 		Bullet b = getClosestThreat();
@@ -106,12 +110,14 @@ public class Tank implements AnimatedObj {
 		brain.setFitness(fitness > 0 ? fitness : 0);
 		
 		brain.generateOutput();
-		System.out.println("Fitness: " + brain.getFitness());
-		System.out.println("Input: " + Arrays.toString(brain.getInput()));
-		System.out.println("Hidden: " + Arrays.toString(brain.getHidden()));
-		System.out.println("Output: " + Arrays.toString(brain.getOutput()));
-		System.out.println("Weigths: " + Arrays.toString(brain.getWeights()));
-		System.out.println("Accuracy: " + accuracy);
+//		System.out.println("Fitness: " + brain.getFitness());
+//		System.out.println("Input: " + Arrays.toString(brain.getInput()));
+//		System.out.println("Hidden: " + Arrays.toString(brain.getHidden()));
+//		System.out.println("Output: " + Arrays.toString(brain.getOutput()));
+//		System.out.println("Weigths: " + Arrays.toString(brain.getWeights()));
+//		System.out.println("Accuracy: " + accuracy);
+		System.out.println("Frames: " + Main.frames);
+		System.out.println("Seconds: " + Main.seconds);
 		System.out.println();
 		
 		if(x + 104 < 0 || x > 1920 || y + 32 < 0 || y > 1080) {
@@ -143,6 +149,7 @@ public class Tank implements AnimatedObj {
 		v = 100;
 		accuracy = 0.0d;
 		animationState = 0;
+		isEnabled = true;
 	}
 
 	@Override

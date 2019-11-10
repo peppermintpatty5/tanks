@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -27,11 +28,17 @@ public class Main {
      * Global variable list of bullets fired
      */
     public static final List<Bullet> bullets = new ArrayList<Bullet>();
+    
+    public static int frames;
+    
+    public static double seconds;
+    
+    public static AtomicBoolean simulation = new AtomicBoolean(true);
 
     public static void main(String[] args) {
         Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", 1920, 1080);
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             redTeam.add(new Tank(Tank.Teams.RED));
             blueTeam.add(new Tank(Tank.Teams.BLUE));
         }
@@ -43,7 +50,11 @@ public class Main {
 
         EventQueue.invokeLater(() -> {
             new Timer(1000 / 60, e -> {
-                for (int i = 0; i < 10; i++)
+            	if(simulation.get()) {
+            		frames++;
+                	seconds = frames / 60.0d;
+            	}
+                for (int i = 0; i < 1; i++)
                     step();
                 window.repaint();
             }).start();
@@ -76,8 +87,8 @@ public class Main {
             return b.x < 0 || b.y < 0 || b.x > 1920 || b.y > 1080;
         });
 
-        redTeam.removeIf(t -> t.health <= 0);
-        blueTeam.removeIf(t -> t.health <= 0);
+        redTeam.stream().filter(t -> t.health <= 0).forEach(t -> t.isEnabled = false);
+        blueTeam.stream().filter(t -> t.health <= 0).forEach(t -> t.isEnabled = false);
 
         // tanks = gen.process(tanks);
     }

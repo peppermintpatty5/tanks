@@ -40,7 +40,8 @@ public class Component extends JComponent implements KeyListener {
      * Background image to be tiled
      */
     private BufferedImage backgroundImage;
-    GenAlg gen = new GenAlg(100, 0.85, 0.05, 10, false);
+    private GenAlg redGen = new GenAlg(100, 0.85, 0.05, 10, false);
+    private GenAlg blueGen = new GenAlg(100, 0.85, 0.05, 10, false);
 
     /**
      * Construct new component
@@ -105,30 +106,47 @@ public class Component extends JComponent implements KeyListener {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.drawImage(backgroundImage, 0, 0, this);
+        
+        if(redTeam.stream().anyMatch(t -> !t.isEnabled) || blueTeam.stream().anyMatch(t -> !t.isEnabled) || Main.seconds >= 10) {
+        	Main.simulation.set(false);
+        	Main.seconds = 0;
+        	Main.frames = 0;
+        }
+        
+        if(Main.simulation.get()) {
+        	
+        	for (Tank t : redTeam) {
+        		if(t.isEnabled)
+        			t.drawMyself(g2, (int) t.x, (int) t.y, t.theta);
+        	}
 
-        for (Tank t : redTeam)
-            t.drawMyself(g2, (int) t.x, (int) t.y, t.theta);
-
-        for (Tank t : blueTeam)
-            t.drawMyself(g2, (int) t.x, (int) t.y, t.theta);
-
-        for (Bullet b : bullets)
-            b.drawMyself(g2, (int) b.x, (int) b.y, b.theta);
-
-        bullets.removeIf(b -> {
-            for (var t : (b.tank.team == Tank.Teams.RED ? blueTeam : redTeam)) {
-                if (Math.pow(b.x - t.x, 2) + Math.pow(b.y - t.y, 2) < Math.pow(45, 2)) {
-                    t.health--;
-                    b.tank.hits++;
-                    return true;
-                }
+            for (Tank t : blueTeam) {
+            	if(t.isEnabled)
+            		t.drawMyself(g2, (int) t.x, (int) t.y, t.theta);
             }
-            return b.x < 0 || b.y < 0 || b.x > 1920 || b.y > 1080;
-        });
 
-        redTeam.removeIf(t -> t.health <= 0);
-        blueTeam.removeIf(t -> t.health <= 0);
+            for (Bullet b : bullets) {
+                b.drawMyself(g2, (int) b.x, (int) b.y, b.theta);
+            }
 
+            bullets.removeIf(b -> {
+                for (var t : (b.tank.team == Tank.Teams.RED ? blueTeam : redTeam)) {
+                    if (Math.pow(b.x - t.x, 2) + Math.pow(b.y - t.y, 2) < Math.pow(45, 2)) {
+                        t.health--;
+                        b.tank.hits++;
+                        return true;
+                    }
+                }
+                return b.x < 0 || b.y < 0 || b.x > 1920 || b.y > 1080;
+            });
+
+//            redTeam.removeIf(t -> t.health <= 0);
+//            blueTeam.removeIf(t -> t.health <= 0);
+        }
+        else {
+        	redTeam = redGen.process(redTeam);
+        	blueTeam = blueGen.process(blueTeam);
+        }
         // tanks = gen.process(tanks);
     }
 
