@@ -18,12 +18,12 @@ public interface AnimatedObj {
 		var i = getAnimationState();
 		var d = getSpriteDimension();
 		var subimg = getSpriteSheet().getSubimage(d.width * i, 0, d.width, d.height);
-		
-		AffineTransform backup = g2.getTransform();
-	    AffineTransform rotation = AffineTransform.getRotateInstance(-theta, subimg.getWidth() / 2, subimg.getHeight() / 2);
-	    g2.setTransform(rotation);
-	    g2.drawImage(subimg, x, y, null);
-	    g2.setTransform(backup);
 
+		AffineTransform backup = g2.getTransform();
+		AffineTransform rotation = AffineTransform.getRotateInstance(-theta, subimg.getWidth() / 2,
+				subimg.getHeight() / 2);
+		// g2.setTransform(rotation);
+		g2.drawImage(subimg, x, y, null);
+		g2.setTransform(backup);
 	}
 }

@@ -71,7 +71,7 @@ public class Component extends JComponent {
         for (Tank t : redTeam) {
             t.update();
             t.drawMyself(g2, (int) t.x, (int) t.y, t.theta);
-            t.shoot(bullets);
+            // t.shoot(bullets);
         }
 
         for (Tank t : blueTeam) {
