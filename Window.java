@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
@@ -37,6 +38,8 @@ public class Window extends JFrame {
 	 */
 	private static final int DEFAULT_HEIGHT = 500;
 	
+	private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+	
 	/**
 	 * Main full parameter constructor
 	 * @param title the title to set
@@ -64,10 +67,9 @@ public class Window extends JFrame {
 	 * @param title the title to set
 	 */
 	public Window(String title, boolean extendedState) {
-		this(title, Window.DEFAULT_WIDTH, Window.DEFAULT_HEIGHT);
-		
-		if(extendedState)
-			super.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		super(title);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.windowInit();
 	}
 	
 	

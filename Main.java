@@ -1,8 +1,6 @@
-import java.awt.Dimension;
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -18,7 +16,6 @@ public class Main {
         List<Tank> redTeam = new ArrayList<Tank>();
         List<Tank> blueTeam = new ArrayList<Tank>();
         Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", true);
-        Random rand = new Random();
 
         for (int i = 0; i < 10; i++) {
             redTeam.add(new Tank(Tank.Teams.RED));
