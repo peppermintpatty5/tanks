@@ -18,7 +18,7 @@ public class Tank implements AnimatedObj {
 	};
 
 	public int health;
-	public double theta, x, y, v = 20;
+	public double theta, x, y, v = 200;
 	public Teams team;
 
 	private Brain brain = new Brain(5, 3, 4);
@@ -34,13 +34,13 @@ public class Tank implements AnimatedObj {
 	 * Default constructor randomly chooses param values.
 	 */
 	public Tank(Teams team) {
-		this(RAND.nextInt(100), RAND.nextInt(100), RAND.nextDouble() * Math.PI * 2, team);
+		this(900 + RAND.nextInt(200), 400 + RAND.nextInt(200), RAND.nextDouble() * Math.PI * 2, team);
 	}
 
 	public Tank(int x, int y, double theta, Teams team) {
 		this.x = x;
 		this.y = y;
-		this.theta = Math.PI * 7 / 4;
+		this.theta = theta;
 		this.team = team;
 
 		if (SPRITE_SHEET_MAP.isEmpty())
@@ -66,8 +66,8 @@ public class Tank implements AnimatedObj {
 		brain.randomizeWeights();
 		brain.generateOutput();
 
-		// x += brain.getOutput()[0] == 0 ? -1 : +1;
-		// y += brain.getOutput()[1] == 0 ? -1 : +1;
+		x += brain.getOutput()[0] == 0 ? -1 : +1;
+		y += brain.getOutput()[1] == 0 ? -1 : +1;
 
 		double a_f = -5;
 		v += (1.0 / 60) * a_f;
@@ -91,5 +91,10 @@ public class Tank implements AnimatedObj {
 	@Override
 	public Dimension getSpriteDimension() {
 		return SPRITE_DIMENSION;
+	}
+
+	@Override
+	public Dimension getSpriteOffset() {
+		return new Dimension(16, 16);
 	}
 }
