@@ -27,16 +27,6 @@ public class Tank implements AnimatedObj {
 	private static final Map<Teams, BufferedImage> SPRITE_SHEET_MAP = new HashMap<>();
 	private static final Dimension SPRITE_DIMENSION = new Dimension(104, 64);
 
-	static {
-		for (var team : Teams.values())
-			try {
-				SPRITE_SHEET_MAP.put(team, ImageIO
-						.read((Tank.class.getResource("assets/imgs/" + team.toString().toLowerCase() + "_tank.png"))));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	}
-
 	private int animationState = 0;
 
 	/**
@@ -51,6 +41,15 @@ public class Tank implements AnimatedObj {
 		this.y = y;
 		this.theta = theta;
 		this.team = team;
+
+		if (SPRITE_SHEET_MAP.isEmpty())
+			for (var t : Teams.values())
+				try {
+					SPRITE_SHEET_MAP.put(t, ImageIO
+							.read((Tank.class.getResource("assets/imgs/" + t.toString().toLowerCase() + "_tank.png"))));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 	}
 
 	public Brain getBrain() {
