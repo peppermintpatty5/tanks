@@ -15,7 +15,7 @@ public class Main {
 
         List<Tank> redTeam = new ArrayList<Tank>();
         List<Tank> blueTeam = new ArrayList<Tank>();
-        Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", true);
+        Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", 1920, 1080);
 
         for (int i = 0; i < 10; i++) {
             redTeam.add(new Tank(Tank.Teams.RED));
