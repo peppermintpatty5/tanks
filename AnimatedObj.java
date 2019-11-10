@@ -23,7 +23,8 @@ public interface AnimatedObj {
 		var d = getSpriteDimension();
 		var subimg = getSpriteSheet().getSubimage(d.width * i, 0, d.width, d.height);
 
-		((Graphics2D) (subimg.getGraphics())).rotate(Math.toRadians(90), getSpriteOffset().getWidth(), getSpriteOffset().getHeight());
+		Graphics2D k = (Graphics2D) g2.create();
+		k.rotate(theta, x + getSpriteOffset().getWidth(), y + getSpriteOffset().getHeight());
 		g2.drawImage(subimg, x, y, null);
 	}
 }
