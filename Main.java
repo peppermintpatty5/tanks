@@ -10,12 +10,11 @@ import javax.sound.sampled.Clip;
  * Main
  */
 public class Main {
+    public static final List<Tank> redTeam = new ArrayList<Tank>();
+    public static final List<Tank> blueTeam = new ArrayList<Tank>();
+    public static final List<Bullet> bullets = new ArrayList<Bullet>();
 
     public static void main(String[] args) {
-
-        List<Tank> redTeam = new ArrayList<Tank>();
-        List<Tank> blueTeam = new ArrayList<Tank>();
-        List<Bullet> bullets = new ArrayList<Bullet>();
 
         Window window = new Window("Gladiator Tanks: Competing Genetic Algorithims", 1920, 1080);
 
@@ -27,24 +26,48 @@ public class Main {
         window.validate();
         window.setVisible(true);
 
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(1000 / 60);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                window.repaint();
+        while (true) {
+            try {
+                Thread.sleep(1000 / 60);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }).start();
+            for (int i = 0; i < 1000; i++)
+                step();
+            window.repaint();
+        }
     }
 
+    public static void step() {
+
+        redTeam.forEach(Tank::update);
+        blueTeam.forEach(Tank::update);
+        bullets.forEach(Bullet::update);
+
+        bullets.removeIf(b -> {
+            for (var t : (b.tank.team == Tank.Teams.RED ? blueTeam : redTeam)) {
+                if (Math.pow(b.x - t.x, 2) + Math.pow(b.y - t.y, 2) < Math.pow(45, 2)) {
+                    t.health--;
+                    b.tank.hits++;
+                    return true;
+                }
+            }
+            return b.x < 0 || b.y < 0 || b.x > 1920 || b.y > 1080;
+        });
+
+        redTeam.removeIf(t -> t.health <= 0);
+        blueTeam.removeIf(t -> t.health <= 0);
+
+        // tanks = gen.process(tanks);
+    }
+
+    @SuppressWarnings("unused")
     private static synchronized void playSound(String url) {
         new Thread(() -> {
             try {
                 Clip clip = AudioSystem.getClip();
-                AudioInputStream inputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(
-                        Object.class.getResourceAsStream("/minesweeper/resources/sounds/" + url)));
+                AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                        new BufferedInputStream(Object.class.getResourceAsStream("assets/sound/" + url)));
                 clip.open(inputStream);
                 clip.start();
             } catch (Exception e) {

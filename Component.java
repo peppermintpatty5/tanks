@@ -67,32 +67,28 @@ public class Component extends JComponent {
 
         g2.drawImage(backgroundImage, 0, 0, this);
 
-        for (Tank t : redTeam) {
-            t.update();
+        for (Tank t : redTeam)
             t.drawMyself(g2, (int) t.x, (int) t.y, t.theta);
-            t.shoot(bullets);
-        }
 
-        for (Tank t : blueTeam) {
-            t.update();
+        for (Tank t : blueTeam)
             t.drawMyself(g2, (int) t.x, (int) t.y, t.theta);
-        }
 
-        for (Bullet b : bullets) {
+        for (Bullet b : bullets)
             b.drawMyself(g2, (int) b.x, (int) b.y, b.theta);
-            b.update();
-        }
 
         bullets.removeIf(b -> {
             for (var t : (b.tank.team == Tank.Teams.RED ? blueTeam : redTeam)) {
                 if (Math.pow(b.x - t.x, 2) + Math.pow(b.y - t.y, 2) < Math.pow(45, 2)) {
                     t.health--;
-                    // REGiSTER HIT FOR B.TANK HERE!!!
+                    b.tank.hits++;
                     return true;
                 }
             }
             return b.x < 0 || b.y < 0 || b.x > 1920 || b.y > 1080;
         });
+
+        redTeam.removeIf(t -> t.health <= 0);
+        blueTeam.removeIf(t -> t.health <= 0);
 
         // tanks = gen.process(tanks);
     }
