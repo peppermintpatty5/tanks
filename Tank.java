@@ -65,7 +65,7 @@ public class Tank implements AnimatedObj {
 		brain.randomizeWeights();
 		brain.generateOutput();
 
-		a_f += brain.getOutput()[0] == 0 ? -5 : +5;
+		a_f += brain.getOutput()[0] == 0 ? - 5 : + 5;
 
 		if (v >= 0)
 			v += (1.0 / 60) * a_f;
